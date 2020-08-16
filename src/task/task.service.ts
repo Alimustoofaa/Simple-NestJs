@@ -3,6 +3,7 @@ import { Task, TaskStatus } from './task.model';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTaskFilterDto } from './dto/get-task-filter.dto';
+import { EmptyError } from 'rxjs';
 
 @Injectable()
 export class TaskService {
@@ -18,12 +19,18 @@ export class TaskService {
         let task = this.getAllTask();
         if (status) {
             task = task.filter(task => task.status === status);
+            if (!task.length) {
+                throw new NotFoundException(`Task with status "${status}" not found`)
+            };
         }
         if (search) {
             task = task.filter(task =>
-                task.title.includes(status) ||
-                task.description.includes(status),
+                task.title.includes(search) ||
+                task.description.includes(search),
             );
+            if (!task.length) {
+                throw new NotFoundException(`Task with keyword  "${search}" not found`)
+            };
         }
         return task;
     }

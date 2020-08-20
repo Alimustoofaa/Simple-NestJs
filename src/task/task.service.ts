@@ -5,6 +5,7 @@ import { EmptyError } from 'rxjs';
 import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
+import { TaskStatus } from './task-status.enum';
 
 @Injectable()
 export class TaskService {
@@ -52,19 +53,9 @@ export class TaskService {
     //     const result = this.getTaskById(id);
     //     this.task = this.task.filter(task => task.id !== result.id);
     // }
-
-    // createTask(createTaskDto: CreateTaskDto): Task {
-    //     const { title, description } = createTaskDto;
-    //     const task: Task = {
-    //         id: uuidv4(),
-    //         title,
-    //         description,
-    //         status: TaskStatus.OPEN,
-    //     }
-
-    //     this.task.push(task);
-    //     return task
-    // }
+    async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+        return this.taskRepository.createTask(createTaskDto)
+    }
 
     // updateTaskStatus(id: string, status: TaskStatus): Task {
     //     const task = this.getTaskById(id);

@@ -10,7 +10,7 @@ import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/auth/user-decoration';
 import { json } from 'express';
 
-@Controller('task')
+@Controller('tasks')
 @UseGuards(AuthGuard())
 export class TaskController {
     private logger = new Logger('TaskController');
